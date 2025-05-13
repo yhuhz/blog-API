@@ -15,7 +15,12 @@ mongoose.connection.once('open', () =>
 );
 
 const corsOptions = {
-  origin: ['http://localhost:8000', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:8000',
+    'http://localhost:3000',
+    'https://blog-app-client-plum.vercel.app',
+    'https://blog-app-client-3fjisnzxy-julius-albert-grajos-projects.vercel.app',
+  ],
   credentials: true,
   optionsSuccessStatus: 200,
 };
