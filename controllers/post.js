@@ -147,24 +147,30 @@ module.exports.addComment = (req, res) => {
     .catch((err) => errorHandler(err, req, res));
 };
 
-module.exports.deleteComment = (req, res) => {
-  return Post.findByIdAndUpdate(
-    req.params.id,
-    { $pull: { comments: { _id: req.params.commentId } } },
-    { new: true }
-  )
-    .then((post) => {
-      if (post) {
-        res.status(200).send({
-          success: true,
-          message: 'Comment deleted successfully',
-          updatedPost: post,
-        });
-      } else {
-        res.status(404).send({
-          message: 'Post not found',
-        });
-      }
-    })
-    .catch((err) => errorHandler(err, req, res));
+module.exports.deleteComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).send({ message: 'Post not found' });
+    }
+
+    const index = parseInt(req.params.index, 10); // Ensure index is a number
+
+    if (index < 0 || index >= post.comments.length) {
+      return res.status(400).send({ message: 'Invalid comment index' });
+    }
+
+    post.comments.splice(index, 1); // Remove comment by index
+
+    await post.save(); // Save updated post
+
+    res.status(200).send({
+      success: true,
+      message: 'Comment deleted successfully',
+      updatedPost: post,
+    });
+  } catch (err) {
+    errorHandler(err, req, res);
+  }
 };
