@@ -12,7 +12,7 @@ router.delete('/deletePost/:id', verify, postController.deletePost);
 
 router.post('/addComment/:id', verify, postController.addComment);
 router.delete(
-  '/deleteComment/:id/:index',
+  '/deleteComment/:postId/:index',
   verify,
   postController.deleteComment
 );
