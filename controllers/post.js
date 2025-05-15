@@ -146,3 +146,25 @@ module.exports.addComment = (req, res) => {
     })
     .catch((err) => errorHandler(err, req, res));
 };
+
+module.exports.deleteComment = (req, res) => {
+  return Post.findByIdAndUpdate(
+    req.params.id,
+    { $pull: { comments: { _id: req.params.commentId } } },
+    { new: true }
+  )
+    .then((post) => {
+      if (post) {
+        res.status(200).send({
+          success: true,
+          message: 'Comment deleted successfully',
+          updatedPost: post,
+        });
+      } else {
+        res.status(404).send({
+          message: 'Post not found',
+        });
+      }
+    })
+    .catch((err) => errorHandler(err, req, res));
+};
