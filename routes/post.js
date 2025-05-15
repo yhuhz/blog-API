@@ -11,6 +11,6 @@ router.patch('/updatePost/:id', verify, postController.updatePost);
 router.delete('/deletePost/:id', verify, postController.deletePost);
 
 router.post('/addComment/:id', verify, postController.addComment);
-router.post('/addComment/:id/:index', verify, postController.deleteComment);
+router.post('/deleteComment/:id/:index', verify, postController.deleteComment);
 
 module.exports = router;
