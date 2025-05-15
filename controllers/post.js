@@ -148,6 +148,7 @@ module.exports.addComment = (req, res) => {
 };
 
 module.exports.deleteComment = async (req, res) => {
+  console.log(req.params.id + ' ' + req.params.index);
   try {
     const post = await Post.findById(req.params.id);
 
